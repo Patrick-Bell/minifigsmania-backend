@@ -118,66 +118,80 @@ class CheckoutController < ApplicationController
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     signing_secret = ENV['STRIPE_WEBHOOK_SECRET']
-
-    begin
-      event = Stripe::Webhook.construct_event(payload, sig_header, signing_secret)
-    rescue JSON::ParserError
-      Rails.logger.error("❌ Invalid JSON")
-      return head :bad_request
-    rescue Stripe::SignatureVerificationError
-      Rails.logger.error("❌ Invalid Signature")
-      return head :bad_request
-    end
-
+  
+    event = verify_stripe_event(payload, sig_header, signing_secret)
+    return head :bad_request unless event
+  
     case event.type
     when 'checkout.session.completed'
-      session = event.data.object
-
-      begin
-        Rails.logger.info "Processing checkout.session.completed event"
-
-        @order = Order.new(
-          total_price: session.amount_total / 100.0,
-          status: 'paid',
-          date: Time.at(session.created).to_datetime,
-          address: session.customer_details.address&.to_json,
-          payment_method: 'Stripe',
-          delivery_date: Time.at(session.created + 3.days).to_datetime, # Consider improving this
-          paid: true,
-          shipping_fee: session.shipping_cost&.amount_total.to_f / 100.0,
-          name: session.customer_details.name,
-          email: session.customer_details.email,
-          phone: session.customer_details.phone,
-          user_id: session.metadata['user_id']
-        )
-
-        if @order.save
-          items = retrieve_line_items(session.id)
-
-          items.each do |item|
-             Rails.logger.debug "Creating line item for order #{@order.id} with item: #{item.inspect}"
-          end
-
-          OrderMailer.new_order_admin(@order).deliver_now
-          Rails.logger.info "✅ Order created successfully: #{@order.id}"
-        else
-          Rails.logger.error "❌ Order creation failed: #{@order.errors.full_messages.join(', ')}"
-        end
-      rescue => e
-        Rails.logger.error "❌ Error processing checkout.session.completed: #{e.message}"
-        Rails.logger.error e.backtrace.join("\n")
-        return head :internal_server_error
-      end
+      handle_checkout_session_completed(event.data.object)
     end
-
+  
     head :ok
   end
-
-  def retrieve_line_items(session_id)
-    Rails.logger.debug "Retrieving line items for session ID: #{session_id}"
-    Stripe::Checkout::Session.list_line_items(session_id).data
-
+  
+  private
+  
+  def verify_stripe_event(payload, sig_header, signing_secret)
+    Stripe::Webhook.construct_event(payload, sig_header, signing_secret)
+  rescue JSON::ParserError => e
+    Rails.logger.error("❌ Invalid JSON: #{e.message}")
+    nil
+  rescue Stripe::SignatureVerificationError => e
+    Rails.logger.error("❌ Invalid Signature: #{e.message}")
+    nil
   end
+  
+  def handle_checkout_session_completed(session)
+    Rails.logger.info "▶️ Handling checkout.session.completed for session: #{session.id}"
+  
+    order = build_order_from_session(session)
+  
+    if order.save
+      create_line_items(order, session.id)
+      OrderMailer.new_order_admin(order).deliver_now
+      Rails.logger.info "✅ Order created successfully: #{order.id}"
+    else
+      Rails.logger.error "❌ Order creation failed: #{order.errors.full_messages.join(', ')}"
+    end
+  rescue => e
+    Rails.logger.error "❌ Error processing session: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+  end
+  
+  def build_order_from_session(session)
+    Order.new(
+      total_price: session.amount_total.to_f / 100,
+      status: 'paid',
+      date: Time.at(session.created).to_datetime,
+      address: session.customer_details.address&.to_json,
+      payment_method: 'Stripe',
+      delivery_date: 3.days.from_now,
+      paid: true,
+      shipping_fee: session.shipping_cost&.amount_total.to_f / 100,
+      name: session.customer_details.name,
+      email: session.customer_details.email,
+      phone: session.customer_details.phone,
+      user_id: session.metadata['user_id']
+    )
+  end
+  
+  def create_line_items(order, session_id)
+    items = retrieve_line_items(session_id)
+  
+    items.each do |item|
+      order.line_items.create!(
+        product_name: item.description,
+        quantity: item.quantity,
+        unit_price: item.amount_total.to_f / item.quantity / 100,
+        total_price: item.amount_total.to_f / 100
+      )
+      Rails.logger.info "✅ Created line item for order #{order.id}: #{item.description}"
+    end
+  rescue => e
+    Rails.logger.error "❌ Error creating line items: #{e.message}"
+  end
+  
 
   private
 
