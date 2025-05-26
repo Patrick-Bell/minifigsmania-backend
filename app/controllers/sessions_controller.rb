@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
 
 
-
     include ActionController::Cookies
     JWT_SECRET_KEY = ENV['JWT_SECRET_KEY']
 
@@ -25,6 +24,7 @@ class SessionsController < ApplicationController
             secure: Rails.env.production?,
             same_site: :none,
             expires: 1.hour.from_now,
+            domain: '.minifigsmania.netlify.app'
           }
     
           render json: { message: 'Login successful', user: user, exp: 1.hour.from_now, token: token }
@@ -34,9 +34,17 @@ class SessionsController < ApplicationController
       end
 
       def destroy
-        cookies.delete(:token)
+        cookies.delete(:token,
+          domain: '.minifigsmania.netlify.app',
+          path: '/',
+          secure: Rails.env.production?,
+          same_site: :none,
+          httponly: true
+          expires: 1.hour.ago
+        )
         render json: { message: 'Logout successful' }
       end
+      
 
 
       def generate_jwt_token(user)

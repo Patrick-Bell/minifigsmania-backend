@@ -19,6 +19,7 @@ class UsersController < ApplicationController
             secure: Rails.env.production?,
             same_site: :none,  # Adjust if needed
             expires: 1.hour.from_now,
+            domain: :all
           }
           render json: @current_user, status: :ok
         else
