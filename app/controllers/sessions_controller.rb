@@ -39,7 +39,7 @@ class SessionsController < ApplicationController
           path: '/',
           secure: Rails.env.production?,
           same_site: :none,
-          httponly: true
+          httponly: true,
           expires: 1.hour.ago
         )
         render json: { message: 'Logout successful' }
