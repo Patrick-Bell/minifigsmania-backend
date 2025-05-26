@@ -145,7 +145,6 @@ class CheckoutController < ApplicationController
 
   
         @order = Order.new(
-          user_id: session.metadata.user_id || nil,
           total_price: session.amount_total / 100.0,
           status: 'paid',
           date: Time.at(session.created).to_datetime,
