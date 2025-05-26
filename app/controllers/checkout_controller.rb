@@ -1,6 +1,8 @@
 class CheckoutController < ApplicationController
   require 'stripe'
 
+  before_action :set_current_user
+
   before_action :set_stripe_key
 
 
@@ -96,6 +98,9 @@ class CheckoutController < ApplicationController
       shipping_address_collection: {
         allowed_countries: ['GB']
       },
+      metadata: {
+        user_id: current_user&.id || nil,
+      }
       shipping_options: shipping_options,
       success_url: 'https://minifigsmania.netlify.app/success',
       cancel_url: 'https://minifigsmania.netlify.app/cancel',
@@ -122,7 +127,7 @@ class CheckoutController < ApplicationController
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     signing_secret = ENV['STRIPE_WEBHOOK_SECRET']
-
+  
     begin
       event = Stripe::Webhook.construct_event(payload, sig_header, signing_secret)
     rescue JSON::ParserError
@@ -132,23 +137,50 @@ class CheckoutController < ApplicationController
       Rails.logger.error("❌ Invalid Signature")
       return head :bad_request
     end
-
+  
     case event.type
-    when 'invoice.payment_succeeded'
-      invoice = event.data.object
-      order_id = invoice.metadata.order_id
+    when 'checkout.session.completed'
+      session = event.data.object
+  
+      begin
+        Rails.logger.info "Processing checkout.session.completed event"
+  
 
-      order = Order.find_by(id: order_id)
-      if order
-        order.update!(status: 'paid')
-        Rails.logger.info("✅ Order #{order.id} marked as paid.")
+  
+        @order = Order.new(
+          user_id: session.metadata.user_id || nil,
+          total_price: session.amount_total / 100.0,
+          status: 'paid',
+          date: Time.at(session.created).to_datetime,
+          address: session.customer_details.address.to_json,
+          payment_method: 'Stripe',
+          delivery_date: Time.at(session.created + 3.days).to_datetime,
+          paid: true,
+          shipping_fee: session.shipping_cost&.amount_total.to_f / 100.0,
+          name: session.customer_details.name,
+          email: session.customer_details.email,
+          phone: session.customer_details.phone,
+        )
+
+        if @order.save
+          OrderMailer.new_order_admin(@order).deliver_now
+          Rails.logger.info "✅ Order created successfully: #{@order.id}"
+        else
+          Rails.logger.error "❌ Order creation failed: #{@order.errors.full_messages.join(', ')}"
+        end
+
+  
+      rescue => e
+        Rails.logger.error "❌ Error processing checkout.session.completed: #{e.message}"
+        Rails.logger.error e.backtrace.join("\n")
+        return head :internal_server_error
       end
-    else
-      Rails.logger.info("ℹ️ Unhandled event: #{event.type}")
     end
-
+  
     head :ok
   end
+  
+  
 
   private
 
