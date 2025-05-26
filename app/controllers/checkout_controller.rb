@@ -100,7 +100,7 @@ class CheckoutController < ApplicationController
       },
       metadata: {
         user_id: current_user&.id || nil,
-      }
+      },
       shipping_options: shipping_options,
       success_url: 'https://minifigsmania.netlify.app/success',
       cancel_url: 'https://minifigsmania.netlify.app/cancel',
