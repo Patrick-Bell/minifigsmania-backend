@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
             value: token,
             httponly: true,
             secure: Rails.env.production?,
-            same_site: :lax,  # Adjust if needed
+            same_site: :none,
             expires: 1.hour.from_now,
           }
     
