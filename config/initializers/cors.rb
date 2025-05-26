@@ -9,7 +9,7 @@
    end
 
    allow do
-    origins 'https://683475bff4b6fd008427b749--minifigsmania.netlify.app'  # <-- your Netlify frontend URL here
+    origins 'https://minifigsmania.netlify.app'  # <-- your Netlify frontend URL here
 
     resource "*",
       headers: :any,
