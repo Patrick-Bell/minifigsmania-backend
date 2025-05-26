@@ -1,7 +1,6 @@
 class CheckoutController < ApplicationController
   require 'stripe'
 
-  skip_before_action :verify_authenticity_token, only: [:stripe_webhook]
   before_action :set_current_user
   before_action :set_stripe_key
 
