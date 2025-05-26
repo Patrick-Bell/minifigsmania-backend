@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New User Notification</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+    }
+    .header {
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 2px solid #6366F1;
+      margin-bottom: 20px;
+    }
+    .logo {
+      height: 100px;
+      width: auto;
+      border-radius: 4px;
+      border: 1px solid #eee;
+    }
+    .section {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .section-title {
+      background-color: #6366F1;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    .order-status {
+      background-color: #e7f7e7;
+      color: #2e8b57;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .info-label {
+      font-weight: 600;
+      width: 40%;
+    }
+    .info-text {
+      width: 60%;
+      text-align: right;
+    }
+    .product {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    .product-image {
+      width: 80px;
+      margin-right: 15px;
+    }
+    .product-image img {
+      width: 100%;
+      border: 1px solid #eee;
+      border-radius: 4px;
+    }
+    .product-details {
+      flex-grow: 1;
+      display: block;
+      justify-content: center;
+    }
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .product-price {
+      color: #6366F1;
+      font-weight: bold;
+    }
+    .product-quantity {
+      color: #666;
+    }
+    .product-total {
+      margin-left: auto;
+      font-weight: bold;
+      align-self: center;
+      color: #6366F1;
+    }
+    .totals {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .grand-total {
+      font-weight: bold;
+      font-size: 20px;
+      color: #6366F1;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+    }
+    .actions {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .button {
+      display: inline-block;
+      background-color: #6366F1;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 3px;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      background-color: #6366F1;
+      margin-right: 5px;
+    }
+    .returning-customer {
+      background-color: #10B981;
+    }
+    .new-customer {
+      background-color: #F59E0B;
+    }
+    .bold {
+      font-weight: 800;
+    }
+    .user-history {
+      background-color: #eef2ff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #777;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img class="logo" src="https://res.cloudinary.com/duzlv0fex/image/upload/v1744295709/urhndchpkmqiufym8mbv.png" alt="MinifigsMania">
+      <h1>Welcome to MinifigsMania!</h1>
+    </div>
+
+    <div class="order-status">
+      You have successfully registered!
+    </div>
+
+    <p>Hello <%= @user.name %>,</p>
+    <p>Welcome to MinifigsMania! Please take the time to go through this email to complete your profile and get the most out of being a member.</p>
+
+    <div class="section">
+      <div class="section-title">Next Steps</div>
+      <div class="info-row">
+        <div class="info-label">Verify Account</div>
+        <div class="info-text">click here</div>
+      </div>
+    </div>
+
+    <div class="section">
+    <div class="section-title">Perks of being a registered user</div>
+    <div class="info-row">
+      <div class="info-label">Wishlist</div>
+      <div class="info-text">Add products to your wishlist!</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Promotions</div>
+      <div class="info-text">Access to new promotions and member only promotions!</div>
+    </div>
+    <div class="info-row">
+    <div class="info-label">Notifications</div>
+    <div class="info-text">Opt in to recieve email notifications for new releases!</div>
+  </div>
+  <div class="info-row">
+  <div class="info-label">Tracking</div>
+  <div class="info-text">Easily track your orders!</div>
+</div>
+  </div>
+
+  <p>If you have any questions, you can contact us <a href='http://localhost:5173/contact'>here</a>.</p>
+  <p>If you want to opt out recieving notifications, please log in and change your settings.</p>
+    
+    <div class="footer">
+      <p>This is an automated notification from your MinifigsMania store.</p>
+      <p>© <%= Date.today.year %> MinifigsMania. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

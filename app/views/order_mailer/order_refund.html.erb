@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Order Notification</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+    }
+    .header {
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 2px solid #6366F1;
+      margin-bottom: 20px;
+    }
+    .logo {
+      height: 100px;
+      width: auto;
+      border-radius: 4px;
+      border: 1px solid #eee;
+    }
+    .section {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .section-title {
+      background-color: #6366F1;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    .order-status {
+      background-color: #e7f7e7;
+      color: #2e8b57;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .info-label {
+      font-weight: 600;
+      width: 40%;
+    }
+    .shipping-label {
+      font-weight: 600;
+    }
+    .info-text {
+      width: 60%;
+      text-align: right;
+    }
+    .product {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    .product-image {
+      width: 80px;
+      margin-right: 15px;
+    }
+    .product-image img {
+      width: 100%;
+      border: 1px solid #eee;
+      border-radius: 4px;
+    }
+    .product-details {
+      flex-grow: 1;
+      display: block;
+      justify-content: center;
+    }
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .product-price {
+      color: #6366F1;
+      font-weight: bold;
+    }
+    .product-quantity {
+      color: #666;
+      margin-top: 5px;
+    }
+    .product-total {
+      margin-left: auto;
+      font-weight: bold;
+      align-self: center;
+      color: #6366F1;
+    }
+    .totals {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .grand-total {
+      font-weight: bold;
+      font-size: 20px;
+      color: #6366F1;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+    }
+    .actions {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .button {
+      display: inline-block;
+      background-color: #6366F1;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 3px;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      background-color: #6366F1;
+      margin-right: 5px;
+    }
+    .returning-customer {
+      background-color: #10B981;
+    }
+    .new-customer {
+      background-color: #F59E0B;
+    }
+    .bold {
+      font-weight: 800;
+    }
+    .user-history {
+      background-color: #eef2ff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #777;
+      border-top: 1px solid #eee;
+    }
+    .alert{
+      font-size: 16px;
+      color: red;
+      font-weight: bold;
+    }
+    .divider{
+      border-top: 1px solid #f8f8f8;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img class="logo" src="https://res.cloudinary.com/duzlv0fex/image/upload/v1744295709/urhndchpkmqiufym8mbv.png" alt="MinifigsMania">
+      <h1>Refund Request</h1>
+    </div>
+
+    <div class="order-status">
+      Please follow the instructions.
+    </div>
+
+    <p>Hello <%= @order.name %>,</p>
+    <p>We have recieved your refund request. Please read the information below</p>
+
+    <div class="section">
+      <div class="section-title">Order Information</div>
+      <div class="info-row">
+        <div class="info-label">Order Number:</div>
+        <div class="info-text">#<%= @order.order_id %></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Order Date:</div>
+        <div class="info-text"><%= @order.date.strftime('%B %d, %Y at %I:%M %p') %></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Payment Method:</div>
+        <div class="info-text"><%= @order.payment_method.capitalize %></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Order Status:</div>
+        <div class="info-text"><%= @order.status.capitalize %></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Order Summary</div>
+      <% @order.line_items.each do |item| %>
+      <div class="product">
+        <div class="product-image">
+          <img src="<%= item.image %>" alt="<%= item.name %>">
+        </div>
+        <div class="product-details">
+          <div class="product-name"><%= item.name %></div>
+          <div class="product-quantity">Qty: <%= item.quantity %> × £<%= sprintf('%.2f', item.price) %></div>
+        </div>
+        <div class="product-total">
+          £<%= sprintf('%.2f', item.price * item.quantity) %>
+        </div>
+      </div>
+      <% end %>
+      </div>
+
+      <div class="section">
+  <div class="section-title">How to Complete Your Refund</div>
+  <p>If you have removed the item(s) from its original packaging, you <strong>MUST</strong> first reply to this email with clear pictures of the item(s) so we can examine them.</p>
+  <div class='divider'></div>
+  <p>Please send the item(s) back to us at the address below. Include your <span class="bold">Return Authorisation Number (RAN)</span> which you can see below, so we can process your refund quickly.</p>
+  <p>You will <span class='product-price'>NOT</span> be refunded for shipping costs. If you bought an item with a promotion code, you will recieve the funds you spent at the time of purchase.</p>
+  <p>Please use a <span class='product-price'>tracked delivery service</span> as items that do not arrive <strong>WILL NOT</strong> recieve their refund.</p>
+
+  <div class="user-history">
+    <p><span class="bold">Return Address:</span><br>
+    MinifigsMania Returns Department<br>
+    123 Brick Street<br>
+    Blockville, BV1 2FG<br>
+    United Kingdom</p>
+  </div>
+
+  <div class="info-row">
+    <div class="info-label">Order Number:</div>
+    <div class="info-text">#<%= @order.id %></div>
+  </div>
+
+  <p class="alert">If this refund request was a mistake or you’ve changed your mind, please reply to this email or contact our support team so we can assist you.</p>
+</div>
+
+      <div class="totals">
+      <div class="info-row">
+        <div class="info-label">Subtotal</div>
+        <div class="info-text">£<%= sprintf('%.2f', @order.total_price - @order.shipping_fee) %></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Shipping</div>
+        <div class="info-text">£<%= sprintf('%.2f', @order.shipping_fee) %></div>
+      </div>
+      <div class="info-row grand-total">
+        <div class="info-label">Total</div>
+        <div class="info-text">£<%= sprintf('%.2f', @order.total_price - @order.shipping_fee) %></div>
+      </div>
+      </div>
+
+      <p>Please allow time for the order to be shipped back to us, and from there, it will take around <span class='product-price'>3-5 business days</span> to process your refund. We will use PayPal or Bank Transfer to send your refund.</p>
+    <p>If you have any questions, please reach out.</p>
+    </div>
+
+    <div class="footer">
+      <p>This is an automated notification from your MinifigsMania store.</p>
+      <p>© <%= Date.today.year %> MinifigsMania. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

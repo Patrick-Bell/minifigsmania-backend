@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  products: 
+  total_price: 1.5
+  status: MyString
+  date: 2025-03-02 17:48:37
+  address: MyText
+  payment_method: MyString
+  delivery_date: 2025-03-02 17:48:37
+  paid: false
+  shipping_fee: MyString
+  float: MyString
+
+two:
+  user: two
+  products: 
+  total_price: 1.5
+  status: MyString
+  date: 2025-03-02 17:48:37
+  address: MyText
+  payment_method: MyString
+  delivery_date: 2025-03-02 17:48:37
+  paid: false
+  shipping_fee: MyString
+  float: MyString

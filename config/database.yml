@@ -1,0 +1,30 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  host: <%= ENV['SUPABASE_HOST'] %>  # Your Supabase host
+  username: <%= ENV['SUPABASE_USERNAME'] %>  # Your Supabase username
+  password: <%= ENV['SUPABASE_PASSWORD'] %>  # Your Supabase password
+  sslmode: require  # SSL required by Supabase
+
+development:
+  <<: *default
+  database: <%= ENV['SUPABASE_DATABASE'] || 'postgres' %>  # Use the same database name for development
+
+test:
+  <<: *default
+  database: <%= ENV['SUPABASE_DATABASE'] || 'postgres' %>  # Use the same database name for testing
+
+production:
+  primary:
+    <<: *default
+    database: <%= ENV['SUPABASE_DATABASE'] || 'postgres' %>
+
+  queue:
+    <<: *default
+    database: <%= ENV['SUPABASE_QUEUE_DATABASE'] || 'postgres' %>
+
+  cache:
+    <<: *default
+    database: <%= ENV['SUPABASE_CACHE_DATABASE'] || 'postgres' %>

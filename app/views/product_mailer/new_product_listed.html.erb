@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Alert: New Product Listed on MinifigsMania</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+      color: #333333;
+      line-height: 1.5;
+    }
+    .container {
+      width: 100%;
+      max-width: 650px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .header {
+      background-color: #1e3a5f;
+      background-image: linear-gradient(135deg, #1e3a5f 0%, #2b4c7a 100%);
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .header-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      color: white;
+      font-weight: bold;
+    }
+    .admin-alert {
+      background-color: #fff8eb;
+      border-left: 4px solid #ff9800;
+      padding: 15px 20px;
+      margin: 0;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+    .alert-icon {
+      margin-right: 10px;
+      color: #ff9800;
+      font-weight: bold;
+    }
+    .content {
+      padding: 30px;
+    }
+    .intro {
+      margin-bottom: 25px;
+      color: #566a7f;
+      font-size: 15px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e3a5f;
+      border-bottom: 2px solid #e7eaf0;
+      padding-bottom: 10px;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: #1e3a5f;
+      margin-right: 8px;
+      border-radius: 2px;
+    }
+    .product-card {
+      border: 1px solid #e7eaf0;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+    .product-header {
+      background-color: #f9fafc;
+      padding: 15px 20px;
+      border-bottom: 1px solid #e7eaf0;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+    .product-header h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #1e3a5f;
+      font-weight: 600;
+    }
+    .product-info {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 25px;
+    }
+    .product-image {
+      width: 150px;
+      height: 150px;
+      background-color: #f9fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e7eaf0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .product-image img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .product-details {
+      font-size: 14px;
+    }
+    .product-details table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .product-details table td {
+      padding: 8px 0;
+      vertical-align: top;
+    }
+    .label {
+      font-weight: 600;
+      width: 110px;
+      color: #566a7f;
+    }
+    .value {
+      color: #444;
+    }
+    .price-row {
+      background-color: #f9fafc;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .price-label {
+      font-weight: 600;
+      color: #566a7f;
+    }
+    .price-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #e53935;
+    }
+    .regular-price {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 14px;
+      margin-left: 5px;
+    }
+    .status-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background-color: #1e3a5f;
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #2b4c7a;
+    }
+    .btn-secondary {
+      background-color: #f5f5f5;
+      color: #444;
+      border: 1px solid #e1e1e1;
+    }
+    .btn-secondary:hover {
+      background-color: #e8e8e8;
+    }
+    .product-description {
+      margin-top: 20px;
+      padding: 15px;
+      border-top: 1px solid #e7eaf0;
+      font-size: 14px;
+      color: #444;
+      line-height: 1.6;
+      background-color: #fbfbfb;
+      border-radius: 4px;
+    }
+    .product-description strong {
+      color: #1e3a5f;
+    }
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      border: 1px solid #e7eaf0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .info-table tr:nth-child(odd) {
+      background-color: #f9fafc;
+    }
+    .info-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e7eaf0;
+    }
+    .info-table tr:last-child td {
+      border-bottom: none;
+    }
+    .info-label {
+      width: 160px;
+      font-weight: 600;
+      color: #566a7f;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .badge-success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    .badge-warning {
+      background-color: #fff8e1;
+      color: #f57f17;
+    }
+    .footer {
+      background-color: #f9fafc;
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #8796a8;
+      border-top: 1px solid #e7eaf0;
+      margin: auto auto;
+      text-align: center;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    .company-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0;
+      font-weight: 600;
+      color: #566a7f;
+    }
+    .company-logo {
+      width: 20px;
+      height: 20px;
+      background-color: #1e3a5f;
+      margin-right: 5px;
+      border-radius: 3px;
+    }
+    @media (max-width: 600px) {
+      .product-info {
+        grid-template-columns: 1fr;
+      }
+      .product-image {
+        width: 100%;
+        height: 200px;
+      }
+      .content {
+        padding: 20px;
+      }
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ADMIN NOTIFICATION: New Product Listed</h1>
+    </div>
+    
+    <div class="content">
+      <p class="intro">A new product has been added to the MinifigsMania database on <strong><%= Time.now.strftime("%B %d, %Y at %I:%M %p") %></strong>.</p>
+      
+      <div class="section-title">Product Details</div>
+      
+      <div class="product-card">
+        <div class="product-header">
+        <div class="flex">
+          <h2><%= @product.name %></h2>
+          </div>
+        </div>
+        
+        <div class="product-info">
+          <div class="product-image">
+            <% if @first_image_url.present? %>
+              <img src="<%= @first_image_url %>" alt="<%= @product.name %>" />
+            <% else %>
+              <img src="https://via.placeholder.com/150" alt="Product Image" />
+            <% end %>
+          </div>
+          
+          <div class="product-details">
+            <table>
+              <tr>
+                <td class="label">Product ID:</td>
+                <td class="value"><%= @product.id %></td>
+              </tr>
+              <tr>
+                <td class="label">Category:</td>
+                <td class="value"><%= @product.category %></td>
+              </tr>
+              <tr>
+                <td class="label">Tag:</td>
+                <td class="value"><%= @product.tag %></td>
+              </tr>
+              <tr>
+                <td class="label">Accessories:</td>
+                <td class="value"><%= @product.accessories %></td>
+              </tr>
+              <tr>
+                <td class="label">Weight:</td>
+                <td class="value"><%= @product.weight %> lbs</td>
+              </tr>
+              <tr>
+                <td class="label">Height:</td>
+                <td class="value"><%= @product.height %> inches</td>
+              </tr>
+            </table>
+            
+            <div class="price-row">
+              <span class="price-label">Price: </span>
+              <span class="price-value">
+                <% if @product.sale_price.present? %>
+                  £<%= @product.sale_price %> <span class="regular-price">£<%= @product.price %></span>
+                <% else %>
+                  £<%= @product.price %>
+                <% end %>
+              </span>
+            </div>
+            
+            <div class="product-description">
+              <strong>Description:</strong>
+              <p><%= @product.notes || "No description provided" %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-title">Additional Information</div>
+      
+      <table class="info-table">
+        <tr>
+          <td class="info-label">Date Added:</td>
+          <td><%= @product.created_at.strftime("%B %d, %Y at %I:%M %p") %></td>
+        </tr>
+        <tr>
+          <td class="info-label">Added By:</td>
+          <td><%= @product.name || "System" %></td>
+        </tr>
+        <tr>
+          <td class="info-label">Inventory Status:</td>
+          <td>
+            <% if @product.stock && @product.stock > 0 %>
+              <span class="badge badge-success">In Stock (<%= @product.stock %>)</span>
+            <% else %>
+              <span class="badge badge-warning">Out of Stock</span>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td class="info-label">Product Visibility:</td>
+          <td>
+              <span class="badge badge-success">Published</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="footer">
+      <div class="company-info">
+        <div class="company-logo"></div>
+        MinifigsMania
+      </div>
+      <p>This is an automated notification from the MinifigsMania system.</p>
+      <p>Please do not reply to this email.</p>
+      <p>&copy; 2025 MinifigsMania. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
