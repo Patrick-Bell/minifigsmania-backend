@@ -155,14 +155,7 @@ class CheckoutController < ApplicationController
           items = retrieve_line_items(session.id)
 
           items.each do |item|
-            LineItem.create!(
-              order_id: @order.id,
-              product_id: item.price.product,
-              quantity: item.quantity,
-              price: item.price.unit_amount / 100.0,
-              name: item.description,
-              image: item.price.product_data&.images&.first
-            )
+             Rails.logger.debug "Creating line item for order #{@order.id} with item: #{item.inspect}"
           end
 
           OrderMailer.new_order_admin(@order).deliver_now
