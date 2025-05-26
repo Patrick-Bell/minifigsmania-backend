@@ -39,15 +39,13 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    cookie_options = {
-      path: "/"
-    }
-    cookie_options[:domain] = ".minifigsmania.netlify.app" if Rails.env.production?
-
-    cookies.delete(:token, cookie_options)
-
+    cookie_domain = Rails.env.production? ? '.minifigsmania.netlify.app' : nil
+  
+    cookies.delete(:token, domain: cookie_domain, path: "/")
     render json: { message: 'Logout successful' }
   end
+  
+  
 
   def generate_jwt_token(user)
     JWT.encode(

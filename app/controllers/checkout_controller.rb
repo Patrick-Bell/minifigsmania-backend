@@ -97,8 +97,8 @@ class CheckoutController < ApplicationController
         allowed_countries: ['GB']
       },
       shipping_options: shipping_options,
-      success_url: 'http://localhost:5173/success',
-      cancel_url: 'http://localhost:5173/cancel',
+      success_url: 'https://minifigsmania.netlify.app/success',
+      cancel_url: 'https://minifigsmania.netlify.app/cancel',
     }
   
     if code.present?
@@ -121,7 +121,7 @@ class CheckoutController < ApplicationController
   def stripe_webhook
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    signing_secret = ENV['STRIPE_SIGNING_SECRET']
+    signing_secret = ENV['STRIPE_WEBHOOK_SECRET']
 
     begin
       event = Stripe::Webhook.construct_event(payload, sig_header, signing_secret)
