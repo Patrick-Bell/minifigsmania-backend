@@ -99,7 +99,7 @@ class CheckoutController < ApplicationController
         allowed_countries: ['GB']
       },
       metadata: {
-        user_id: current_user&.id || nil,
+        user_id: current_user&.user_id || nil,
       },
       shipping_options: shipping_options,
       success_url: 'https://minifigsmania.netlify.app/success',
