@@ -98,9 +98,6 @@ class CheckoutController < ApplicationController
       shipping_address_collection: {
         allowed_countries: ['GB']
       },
-      metadata: {
-        user_id: current_user&.user_id || nil,
-      },
       shipping_options: shipping_options,
       success_url: 'https://minifigsmania.netlify.app/success',
       cancel_url: 'https://minifigsmania.netlify.app/cancel',
