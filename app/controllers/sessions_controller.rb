@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  require 'jwt'
+
+  # Include cookies functionality for setting and deleting cookies
   include ActionController::Cookies
   JWT_SECRET_KEY = ENV['JWT_SECRET_KEY']
 
@@ -21,9 +24,8 @@ class SessionsController < ApplicationController
         secure: Rails.env.production?,
         same_site: :none,
         expires: 2.hours.from_now,
-        path: "/"
+        domain: :all
       }
-      cookie_options[:domain] = ".minifigsmania.netlify.app" if Rails.env.production?
 
       cookies[:token] = cookie_options
 
@@ -38,10 +40,8 @@ class SessionsController < ApplicationController
     end
   end
 
-  def destroy
-    cookie_domain = Rails.env.production? ? '.minifigsmania.netlify.app' : nil
-  
-    cookies.delete(:token, domain: cookie_domain, path: "/")
+  def destroy  
+    cookies.delete(:token, domain: :all)
     render json: { message: 'Logout successful' }
   end
   
