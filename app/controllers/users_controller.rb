@@ -17,7 +17,7 @@ class UsersController < ApplicationController
             value: token,
             httponly: true,
             secure: Rails.env.production?,
-            same_site: :lax,  # Adjust if needed
+            same_site: :none,  # Adjust if needed
             expires: 1.hour.from_now,
           }
           render json: @current_user, status: :ok
