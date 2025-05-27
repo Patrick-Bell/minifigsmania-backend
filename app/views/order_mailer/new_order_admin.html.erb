@@ -268,7 +268,7 @@
       
       <div class="info-row">
         <div class="info-label">Shipping Address:</div>
-        <div class="info-text"><%= @order.address %></div>
+        <div class="info-text"><%= JSON.parse(@order.address) %></div>
       </div>
     </div>
 

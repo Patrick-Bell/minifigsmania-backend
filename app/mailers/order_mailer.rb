@@ -3,6 +3,7 @@ class OrderMailer < ApplicationMailer
   
   def new_order(order)
   @order = order
+  @discount = @order.discount || 0.0
   product_ids = @order.line_items.pluck(:product_id)
   first_product = @order.line_items.first.product
 
