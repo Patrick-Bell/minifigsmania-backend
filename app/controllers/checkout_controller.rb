@@ -178,23 +178,34 @@ class CheckoutController < ApplicationController
   
   def create_line_items(order, session_id)
     items = retrieve_line_items(session_id)
-
+  
     Rails.logger.info "Creating line items for order #{order.id} with session ID #{session_id}"
-    Rails.logger.info "Line items count: #{items}"
+    Rails.logger.info "Line items count: #{items.count}"
   
     items.each do |item|
+      # Match your internal product by name (assuming uniqueness)
+      product = Product.includes(:images).find_by(name: item.description)
+  
+      unless product
+        Rails.logger.warn "⚠️ No product found for description '#{item.description}'"
+        next
+      end
+  
       LineItem.create!(
         order_id: order.id,
+        product_id: product.id,
         name: item.description,
         quantity: item.quantity,
         price: item.amount_total.to_f / item.quantity / 100,
-        quantity: item.quantity
+        image: product.images.first&.url || '',
       )
+  
       Rails.logger.info "✅ Created line item for order #{order.id}: #{item.description}"
     end
   rescue => e
     Rails.logger.error "❌ Error creating line items: #{e.message}"
   end
+  
 
   def retrieve_line_items(session_id)
     Stripe::Checkout::Session.list_line_items(session_id).data
