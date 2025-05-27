@@ -163,6 +163,7 @@ class CheckoutController < ApplicationController
   
   def build_order_from_session(session)
     card_details = retrieve_card_details(session.id)
+    
     Order.new(
       total_price: session.amount_total.to_f / 100,
       status: 'paid',
@@ -180,13 +181,14 @@ class CheckoutController < ApplicationController
       email: session.customer_details.email,
       phone: session.customer_details.phone,
       user_id: session.metadata['user_id'],
-      discount: session.total_details.amount_discount.to_f / 100 || 0.0,
-      card_brand: card_details.brand,
-      card_last4: card_details.last4,
-      card_exp_month: card_details.exp_month,
-      card_exp_year: card_details.exp_year
+      discount: (session.total_details.amount_discount.to_f rescue 0.0) / 100,
+      card_brand: card_details&.brand || 'Unknown',
+      card_last4: card_details&.last4,
+      card_exp_month: card_details&.exp_month,
+      card_exp_year: card_details&.exp_year
     )
   end
+  
   
   def create_line_items(order, session_id)
     items = retrieve_line_items(session_id)
@@ -231,6 +233,7 @@ class CheckoutController < ApplicationController
       expand: ['payment_intent']
     })
   
+    Rails.logger.info "Retrieving card details #{payment_method}"
     payment_method_id = session.payment_intent.payment_method
     payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
 
