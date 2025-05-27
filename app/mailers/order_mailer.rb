@@ -35,6 +35,7 @@ end
 
       @order = order
       @user = User.find_by(id: @order.user_id)
+      @discount = @order.discount || 0.0
 
       mail(to: ENV['EMAIL'], subject: "MinifigsMania | New Order")
     end
