@@ -182,7 +182,7 @@ class CheckoutController < ApplicationController
       phone: session.customer_details.phone,
       user_id: session.metadata['user_id'],
       discount: (session.total_details.amount_discount.to_f rescue 0.0) / 100,
-      card_brand: card_details&.brand || 'Unknown',
+      card_brand: card_details.card&.brand || 'Unknown',
       card_last4: card_details&.last4,
       card_exp_month: card_details&.exp_month,
       card_exp_year: card_details&.exp_year
@@ -235,7 +235,6 @@ class CheckoutController < ApplicationController
   
     payment_method_id = session.payment_intent.payment_method
     payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
-    Rails.logger.info "Retrieving card details #{payment_method}"
 
 
 
