@@ -172,7 +172,8 @@ class CheckoutController < ApplicationController
       name: session.customer_details.name,
       email: session.customer_details.email,
       phone: session.customer_details.phone,
-      user_id: session.metadata['user_id']
+      user_id: session.metadata['user_id'],
+      discount: session.total_details.amount_discount.to_f / 100 || 0.0
     )
   end
   
