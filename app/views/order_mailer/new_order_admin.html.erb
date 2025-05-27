@@ -299,10 +299,12 @@
         <div class="info-label">Shipping</div>
         <div class="info-text">£<%= sprintf('%.2f', @order.shipping_fee) %></div>
       </div>
-      <div class="info-row">
-      <div class="info-label">Discount</div>
-      <div class="info-text">-£<%= sprintf('%.2f', @discount) %></div>
-    </div>
+      <% if @discount.to_f > 0 %>
+        <div class="info-row">
+          <div class="info-label">Discount</div>
+          <div class="info-text">-£<%= sprintf('%.2f', @discount) %></div>
+        </div>
+      <% end %>
       <div class="info-row grand-total">
         <div class="info-label">Total</div>
         <div class="info-text">£<%= sprintf('%.2f', @order.total_price - @discount) %></div>
