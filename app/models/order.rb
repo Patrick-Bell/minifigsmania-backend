@@ -26,7 +26,7 @@ class Order < ApplicationRecord
 
 
   def generate_unique_order_id
-    self.order_id ||= generate_unique_hex(:order_id)
+    self.order_id ||= generate_unique_order(:order_id)
   end
 
   def expected_delivery_date
@@ -36,6 +36,14 @@ class Order < ApplicationRecord
   def generate_unique_hex(attribute)
     loop do
       token = 'TRK-' + SecureRandom.hex(10).upcase
+      #token = SecureRandom.hex(20)
+      break token unless Order.exists?(attribute => token)
+    end
+  end
+
+  def generate_unique_order(attribute)
+    loop do
+      token = 'ORD-' + SecureRandom.hex(10).upcase
       #token = SecureRandom.hex(20)
       break token unless Order.exists?(attribute => token)
     end
