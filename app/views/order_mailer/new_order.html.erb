@@ -234,8 +234,18 @@
       </div>
       
         <div class="user-history">
-        <div class='shipping-label'>Shipping Address:</div>
-        <div><%= @order.address %></div>
+        <div class="info-row">
+        <div class="info-label">Shipping Address:</div>
+        <div class="info-text">
+        <%= @order.address %><br>
+        <% if @order.address_2.present? %>
+          <%= @order.address_2 %><br>
+        <% end %>
+        <%= @order.city %>, <%= @order.postal_code %><br>
+        <%= @order.country%>
+      </div>
+      </div>
+    </div>
         <p class='alert'>If the address you see here is not correct, please reach out to us ASAP so we can amend your shipping address before your order is shipped.</p>
         </div>
     </div>

@@ -150,6 +150,7 @@ class CheckoutController < ApplicationController
     if order.save
       create_line_items(order, session.id)
       OrderMailer.new_order_admin(order).deliver_now
+      OrderMailer.new_order(order).deliver_now
       Rails.logger.info "✅ Order created successfully: #{order.id}"
     else
       Rails.logger.error "❌ Order creation failed: #{order.errors.full_messages.join(', ')}"
