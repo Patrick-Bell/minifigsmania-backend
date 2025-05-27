@@ -268,7 +268,14 @@
       
       <div class="info-row">
         <div class="info-label">Shipping Address:</div>
-        <div class="info-text"><%= JSON.parse(@order.address) %></div>
+        <div class="info-text">
+        <%= @order.address["line1"] %><br>
+        <% if @order.address["line2"].present? %>
+          <%= @order.address["line2"] %><br>
+        <% end %>
+        <%= @order.address["city"] %>, <%= @order.address["postal_code"] %><br>
+        <%= @order.address["country"] %>
+      </div>
       </div>
     </div>
 
