@@ -146,6 +146,8 @@ class CheckoutController < ApplicationController
     Rails.logger.info "▶️ Handling checkout.session.completed for session: #{session.id}"
   
     order = build_order_from_session(session)
+    card_details = retrieve_card_details(session.id)
+    
   
     if order.save
       create_line_items(order, session.id)
@@ -218,6 +220,25 @@ class CheckoutController < ApplicationController
   rescue Stripe::InvalidRequestError => e
     Rails.logger.error "❌ Error retrieving line items for session #{session_id}: #{e.message}"
   end
+
+  def retrieve_card_details(session_id)
+    session = Stripe::Checkout::Session.retrieve({
+      id: session_id,
+      expand: ['payment_intent']
+    })
+  
+    payment_method_id = session.payment_intent.payment_method
+    payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
+
+    Rails.logger.info "Retrieved card details for session #{session_id}: #{payment_method.card.inspect}"
+  
+    payment_method.card.slice(:brand, :last4, :exp_month, :exp_year)
+  rescue Stripe::InvalidRequestError => e
+    Rails.logger.error "❌ Stripe error for session #{session_id}: #{e.message}"
+    nil
+  end
+  
+  
   
   
 
