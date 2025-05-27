@@ -178,6 +178,9 @@ class CheckoutController < ApplicationController
   
   def create_line_items(order, session_id)
     items = retrieve_line_items(session_id)
+
+    Rails.logger.info "Creating line items for order #{order.id} with session ID #{session_id}"
+    Rails.logger.info "Line items count: #{items}"
   
     items.each do |item|
       LineItem.create!(
