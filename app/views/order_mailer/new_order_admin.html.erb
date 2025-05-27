@@ -269,12 +269,12 @@
       <div class="info-row">
         <div class="info-label">Shipping Address:</div>
         <div class="info-text">
-        <%= @order.address["line1"] %><br>
-        <% if @order.address["line2"].present? %>
-          <%= @order.address["line2"] %><br>
+        <%= @order.address %><br>
+        <% if @order.line2.present? %>
+          <%= @order.line2 %><br>
         <% end %>
-        <%= @order.address["city"] %>, <%= @order.address["postal_code"] %><br>
-        <%= @order.address["country"] %>
+        <%= @order.city %>, <%= @order.postal_code %><br>
+        <%= @order.country%>
       </div>
       </div>
     </div>
