@@ -150,8 +150,9 @@ class CheckoutController < ApplicationController
   
     if order.save
       create_line_items(order, session.id)
-      OrderMailer.new_order_admin(order).deliver_now
-      OrderMailer.new_order(order).deliver_now
+      update_stock(order.line_items)
+      OrderMailer.new_order_admin(order).deliver_later
+      OrderMailer.new_order(order).deliver_later
       Rails.logger.info "✅ Order created successfully: #{order.id}"
     else
       Rails.logger.error "❌ Order creation failed: #{order.errors.full_messages.join(', ')}"
@@ -241,6 +242,19 @@ class CheckoutController < ApplicationController
   rescue Stripe::InvalidRequestError => e
     Rails.logger.error "❌ Stripe error for session #{session_id}: #{e.message}"
     nil
+  end
+
+
+  def update_stock(line_items)
+    line_items.each do |item|
+      product = Product.find_by(name: item.description)
+      new_stock = product.stock - item.quantity
+      
+      product.update(stock: new_stock)
+      Rails.logger.info "✅ Updated stock for product #{product.name}: #{new_stock}"
+    end
+  rescue => e
+    Rails.logger.error "❌ Error updating stock: #{e.message}"
   end
   
   
