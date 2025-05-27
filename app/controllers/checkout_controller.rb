@@ -165,7 +165,7 @@ class CheckoutController < ApplicationController
       status: 'paid',
       date: Time.at(session.created).to_datetime,
       address: session.customer_details.address.line1,
-      address_2: session.customer_details.line2,
+      address_2: session.customer_details.address.line2,
       postal_code: session.customer_details.address.postal_code,
       city: session.customer_details.address.city,
       country: session.customer_details.address.country,
