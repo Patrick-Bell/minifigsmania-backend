@@ -233,9 +233,10 @@ class CheckoutController < ApplicationController
       expand: ['payment_intent']
     })
   
-    Rails.logger.info "Retrieving card details #{payment_method}"
     payment_method_id = session.payment_intent.payment_method
     payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
+    Rails.logger.info "Retrieving card details #{payment_method}"
+
 
 
   rescue Stripe::InvalidRequestError => e
