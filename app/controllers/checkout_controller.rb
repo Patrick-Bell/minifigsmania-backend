@@ -182,10 +182,10 @@ class CheckoutController < ApplicationController
     items.each do |item|
       LineItem.create!(
         order_id: order.id,
-        product_name: item.description,
+        name: item.description,
         quantity: item.quantity,
-        unit_price: item.amount_total.to_f / item.quantity / 100,
-        total_price: item.amount_total.to_f / 100
+        price: item.amount_total.to_f / item.quantity / 100,
+        quantity: item.quantity
       )
       Rails.logger.info "✅ Created line item for order #{order.id}: #{item.description}"
     end
