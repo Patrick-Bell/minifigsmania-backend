@@ -270,8 +270,8 @@
         <div class="info-label">Shipping Address:</div>
         <div class="info-text">
         <%= @order.address %><br>
-        <% if @order.line2.present? %>
-          <%= @order.line2 %><br>
+        <% if @order.address_2.present? %>
+          <%= @order.address_2 %><br>
         <% end %>
         <%= @order.city %>, <%= @order.postal_code %><br>
         <%= @order.country%>
