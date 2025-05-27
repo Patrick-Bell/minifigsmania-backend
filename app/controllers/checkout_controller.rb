@@ -192,6 +192,13 @@ class CheckoutController < ApplicationController
   rescue => e
     Rails.logger.error "❌ Error creating line items: #{e.message}"
   end
+
+  def retrieve_line_items(session_id)
+    Stripe::Checkout::Session.list_line_items(session_id).data
+  rescue Stripe::InvalidRequestError => e
+    Rails.logger.error "❌ Error retrieving line items for session #{session_id}: #{e.message}"
+  end
+  
   
 
   private
