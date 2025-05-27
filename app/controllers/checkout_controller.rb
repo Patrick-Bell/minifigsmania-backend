@@ -183,9 +183,9 @@ class CheckoutController < ApplicationController
       user_id: session.metadata['user_id'],
       discount: (session.total_details.amount_discount.to_f rescue 0.0) / 100,
       card_brand: card_details.card&.brand || 'Unknown',
-      card_last4: card_details&.last4,
-      card_exp_month: card_details&.exp_month,
-      card_exp_year: card_details&.exp_year
+      card_last4: card_details.card&.last4,
+      card_exp_month: card_details.card&.exp_month,
+      card_exp_year: card_details.card&.exp_year
     )
   end
   
