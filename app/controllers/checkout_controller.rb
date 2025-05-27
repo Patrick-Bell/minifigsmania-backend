@@ -180,7 +180,7 @@ class CheckoutController < ApplicationController
     items = retrieve_line_items(session_id)
   
     items.each do |item|
-      LineItems.create!(
+      LineItem.create!(
         order_id: order.id,
         product_name: item.description,
         quantity: item.quantity,
