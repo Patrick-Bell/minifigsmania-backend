@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_27_133602) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_27_141329) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -101,6 +101,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_133602) do
     t.string "city"
     t.string "country"
     t.string "address_2"
+    t.string "card_brand"
+    t.string "card_last4"
+    t.integer "card_exp_month"
+    t.integer "card_exp_year"
   end
 
   create_table "product_wishlists", force: :cascade do |t|

@@ -146,8 +146,7 @@ class CheckoutController < ApplicationController
     Rails.logger.info "▶️ Handling checkout.session.completed for session: #{session.id}"
   
     order = build_order_from_session(session)
-    card_details = retrieve_card_details(session.id)
-    
+
   
     if order.save
       create_line_items(order, session.id)
@@ -163,6 +162,7 @@ class CheckoutController < ApplicationController
   end
   
   def build_order_from_session(session)
+    card_details = retrieve_card_details(session.id)
     Order.new(
       total_price: session.amount_total.to_f / 100,
       status: 'paid',
@@ -180,7 +180,11 @@ class CheckoutController < ApplicationController
       email: session.customer_details.email,
       phone: session.customer_details.phone,
       user_id: session.metadata['user_id'],
-      discount: session.total_details.amount_discount.to_f / 100 || 0.0
+      discount: session.total_details.amount_discount.to_f / 100 || 0.0,
+      card_brand: card_details.brand,
+      card_last4: card_details.last4,
+      card_exp_month: card_details.exp_month,
+      card_exp_year: card_details.exp_year
     )
   end
   
@@ -230,9 +234,7 @@ class CheckoutController < ApplicationController
     payment_method_id = session.payment_intent.payment_method
     payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
 
-    Rails.logger.info "Retrieved card details for session #{session_id}: #{payment_method.card.inspect}"
-  
-    payment_method.card.slice(:brand, :last4, :exp_month, :exp_year)
+
   rescue Stripe::InvalidRequestError => e
     Rails.logger.error "❌ Stripe error for session #{session_id}: #{e.message}"
     nil

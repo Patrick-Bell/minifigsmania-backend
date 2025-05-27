@@ -99,6 +99,7 @@ class OrdersController < ApplicationController
         :user_id, :total_price, :status, :date, :address, 
         :payment_method, :delivery_date, :paid, :shipping_fee, 
         :tracking_id, :order_id, :name, :email, :phone, :platform, :discount, :postal_code, :city, :country, :address_2,
+        :card_brand, :card_last4, :card_exp_month, :card_exp_year,
         line_items_attributes: [:id, :order_id, :name, :price, :quantity, :image, :product_id]
       )
     end
