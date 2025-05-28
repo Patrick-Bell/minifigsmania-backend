@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
       expires: 2.hours.from_now,
       same_site: Rails.env.production? ? :none : :lax,
       secure: Rails.env.production?,
-      domain: Rails.env.production? ? :all : nil,
+      domain: '.herokuapp.com',
       path: '/'
     }
     cookies[:token] = cookie_options
@@ -44,7 +44,7 @@ class SessionsController < ApplicationController
 
   def destroy
     cookies.delete(:token,
-    domain: Rails.env.production? ? :all : nil,
+    domain: '.herokuapp.com',
     secure: Rails.env.production?,
     same_site: Rails.env.production? ? :none : :lax,
     httponly: true,
