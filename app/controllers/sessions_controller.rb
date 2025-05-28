@@ -19,30 +19,40 @@ class SessionsController < ApplicationController
       Rails.logger.debug "Generated Token: #{token}"
 
       cookie_options = {
-        value: token,
-        httponly: true,
-        secure: Rails.env.production?,
-        same_site: :none,
-        expires: 2.hours.from_now,
-      }
+      value: token,
+      httponly: true,
+      expires: 2.hours.from_now,
+      same_site: Rails.env.production? ? :none : :lax,
+      secure: Rails.env.production?,
+      domain: Rails.env.production? ? :all : nil,
+      path: '/'
+    }
+    cookies[:token] = cookie_options
 
-      cookies[:token] = cookie_options
+
 
       render json: {
         message: 'Login successful',
         user: user,
         exp: 2.hours.from_now,
-        token: token
+        token: token,
       }
     else
       render json: { error: 'Invalid Password' }, status: :unauthorized
     end
   end
 
-  def destroy  
-    cookies.delete(:token)
+  def destroy
+    cookies.delete(:token,
+    domain: Rails.env.production? ? :all : nil,
+    secure: Rails.env.production?,
+    same_site: Rails.env.production? ? :none : :lax,
+    httponly: true,
+    path: '/'
+)
     render json: { message: 'Logout successful' }
   end
+  
   
   
 
