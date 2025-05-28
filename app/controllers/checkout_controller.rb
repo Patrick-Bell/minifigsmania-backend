@@ -151,6 +151,7 @@ class CheckoutController < ApplicationController
   
     if order.save
       create_line_items(order, session.id)
+      update_stock(order.line_items)
       OrderMailer.new_order_admin(order).deliver_later
       OrderMailer.new_order(order).deliver_later
       Rails.logger.info "✅ Order created successfully: #{order.id}"
