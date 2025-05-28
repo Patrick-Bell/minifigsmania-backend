@@ -151,6 +151,7 @@ class CheckoutController < ApplicationController
   
     if order.save
       create_line_items(order, session.id)
+      Rails.logger.info "Order Line Items: #{order.line_items.inspect}"
       update_stock(order.line_items)
       OrderMailer.new_order_admin(order).deliver_later
       OrderMailer.new_order(order).deliver_later
