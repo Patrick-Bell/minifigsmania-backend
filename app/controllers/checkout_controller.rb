@@ -145,12 +145,12 @@ class CheckoutController < ApplicationController
   def handle_checkout_session_completed(session)
     Rails.logger.info "▶️ Handling checkout.session.completed for session: #{session.id}"
   
+    
     order = build_order_from_session(session)
 
   
     if order.save
       create_line_items(order, session.id)
-      update_stock(order.line_items)
       OrderMailer.new_order_admin(order).deliver_later
       OrderMailer.new_order(order).deliver_later
       Rails.logger.info "✅ Order created successfully: #{order.id}"
@@ -247,8 +247,11 @@ class CheckoutController < ApplicationController
 
   def update_stock(line_items)
     line_items.each do |item|
+      Rails.logger.info "#{item}"
       product = Product.find_by(name: item.description)
       new_stock = product.stock - item.quantity
+
+      Rails.logger.info "Updating stock for product #{product.name}: current stock #{product.stock}, reducing by #{item.quantity} to #{new_stock}"
       
       product.update(stock: new_stock)
       Rails.logger.info "✅ Updated stock for product #{product.name}: #{new_stock}"

@@ -24,7 +24,6 @@ class SessionsController < ApplicationController
         secure: Rails.env.production?,
         same_site: :none,
         expires: 2.hours.from_now,
-        domain: :all
       }
 
       cookies[:token] = cookie_options
@@ -41,7 +40,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy  
-    cookies.delete(:token, domain: :all)
+    cookies.delete(:token)
     render json: { message: 'Logout successful' }
   end
   

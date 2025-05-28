@@ -18,7 +18,7 @@ class UsersController < ApplicationController
             httponly: true,
             secure: Rails.env.production?,
             same_site: :none,  # Adjust if needed
-            expires: 1.hour.from_now,
+            expires: 2.hours.from_now,
             domain: :all
           }
           render json: @current_user, status: :ok
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
 
       def generate_jwt_token(user)
-        JWT.encode({ user_id: user.id, email: user.email, exp: 1.hour.from_now.to_i }, JWT_SECRET_KEY, 'HS256')
+        JWT.encode({ user_id: user.id, email: user.email, exp: 2.hours.from_now.to_i }, JWT_SECRET_KEY, 'HS256')
       end
   
 
