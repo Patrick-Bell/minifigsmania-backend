@@ -250,7 +250,7 @@ class CheckoutController < ApplicationController
   def update_stock(line_items)
     line_items.each do |item|
       Rails.logger.info "#{item}"
-      product = Product.find_by(name: item.description)
+      product = Product.find_by(name: item.name)
       new_stock = product.stock - item.quantity
 
       Rails.logger.info "Updating stock for product #{product.name}: current stock #{product.stock}, reducing by #{item.quantity} to #{new_stock}"
