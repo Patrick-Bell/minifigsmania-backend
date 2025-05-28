@@ -280,6 +280,26 @@
     </div>
 
     <div class="section">
+      <div class="section-title">Payment Details</div>
+      <div class="info-row">
+        <div class="info-label">Card Brand:</div>
+        <div class="info-text"><%= @order.card_brand %></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Last 4:</div>
+        <div class="info-text"><%= @order.last4 %></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Card Expiry Month:</div>
+        <div class="info-text"><%= @order.card_exp_month %></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Card Expiry Year:</div>
+        <div class="info-text"><%= @order.card_exp_year %></div>
+      </div>
+      </div>
+
+    <div class="section">
       <div class="section-title">Order Summary</div>
       
       <% @order.line_items.each do |item| %>
