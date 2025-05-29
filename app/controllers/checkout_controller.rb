@@ -12,7 +12,7 @@ class CheckoutController < ApplicationController
     Rails.logger.debug "Received code: #{code.inspect}"
     Rails.logger.debug "Full params: #{params.inspect}"
 
-    Rails.logger.debug "User ID for client_reference_id: #{@current_user}"
+    Rails.logger.info "User ID for client_reference_id: #{@current_user}"
 
 
     total_weight = cart.sum { |item| item["weight"] * item["quantity"] }  # weight in grams
@@ -203,6 +203,7 @@ class CheckoutController < ApplicationController
   
     Rails.logger.info "Creating line items for order #{order.id} with session ID #{session_id}"
     Rails.logger.info "Line items count: #{items.count}"
+    Rails.logger.info "#{@current_user} user #{@current_user.inspect}"
   
     items.each do |item|
       # Match your internal product by name (assuming uniqueness)
