@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     resources :product_wishlists
     resources :newsletters
     resources :messages
+    resources :comments
+
 
 
 

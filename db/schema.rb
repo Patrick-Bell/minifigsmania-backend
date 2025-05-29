@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_27_141329) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_29_174214) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -31,6 +31,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_141329) do
   enable_extension "plpgsql"
   enable_extension "supabase_vault"
   enable_extension "uuid-ossp"
+
+  create_table "comments", force: :cascade do |t|
+    t.string "name"
+    t.string "message"
+    t.integer "likes"
+    t.integer "dislikes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "product_id", null: false
+    t.index ["product_id"], name: "index_comments_on_product_id"
+  end
 
   create_table "events", force: :cascade do |t|
     t.string "title"
@@ -195,6 +206,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_141329) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "comments", "products"
   add_foreign_key "images", "products"
   add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "products"
