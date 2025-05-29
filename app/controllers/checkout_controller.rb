@@ -87,6 +87,7 @@ class CheckoutController < ApplicationController
     session_params = {
       payment_method_types: ['card'],
       line_items: line_items,
+      client_reference_id: @current_user&.id,
       mode: 'payment',
       shipping_address_collection: {
         allowed_countries: ['GB']
