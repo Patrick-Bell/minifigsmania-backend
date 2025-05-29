@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     post 'validate-reset-token', to: 'passwords#validate_reset_token', as: 'validate_reset_token'
     put 'reset-password', to: 'passwords#reset_password', as: 'reset_password'
 
+    get 'fetch-comments/:product_id', to: 'comments#fetch_comments', as: 'fetch_comments'
+
 
     resources :orders
     resources :products
@@ -36,6 +38,8 @@ Rails.application.routes.draw do
     resources :newsletters
     resources :messages
     resources :comments
+    resources :replies
+
 
 
 

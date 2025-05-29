@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_29_174214) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_29_183509) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -164,6 +164,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_29_174214) do
     t.integer "minimum_spend"
   end
 
+  create_table "replies", force: :cascade do |t|
+    t.string "name"
+    t.string "message"
+    t.integer "likes", default: 0
+    t.integer "dislikes", default: 0
+    t.bigint "comment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_replies_on_comment_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "name"
     t.string "header"
@@ -212,4 +223,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_29_174214) do
   add_foreign_key "line_items", "products"
   add_foreign_key "product_wishlists", "products"
   add_foreign_key "product_wishlists", "users"
+  add_foreign_key "replies", "comments"
 end

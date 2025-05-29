@@ -24,6 +24,18 @@ class CommentsController < ApplicationController
     end
   end
 
+  def fetch_comments
+    id = params[:product_id]
+    @comments = Comment.includes(:replies).where(product_id: id)
+  
+    if @comments.any?
+      render json: @comments.as_json(include: :replies), status: :ok
+    else
+      render json: { message: 'No comments found for this product.' }, status: :not_found
+    end
+  end
+  
+
   # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
