@@ -92,7 +92,7 @@ class CheckoutController < ApplicationController
         allowed_countries: ['GB']
       },
       metadata: {
-        user_id: @current_user.id
+        user_id: @current_user&.id
       },
       expand: ['line_items'],
       shipping_options: shipping_options,
