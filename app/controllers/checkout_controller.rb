@@ -91,8 +91,10 @@ class CheckoutController < ApplicationController
       shipping_address_collection: {
         allowed_countries: ['GB']
       },
+      payment_intent_data: {
       metadata: {
-        user_id: @current_user&.id
+      user_id: @current_user&.id
+        }
       },
       expand: ['line_items'],
       shipping_options: shipping_options,
