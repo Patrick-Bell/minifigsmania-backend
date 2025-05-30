@@ -191,7 +191,7 @@ class CheckoutController < ApplicationController
       card_brand: card_details.card&.brand || 'Unknown',
       card_last4: card_details.card&.last4,
       card_exp_month: card_details.card&.exp_month,
-      card_exp_year: card_details.card&.exp_year
+      card_exp_year: card_details.card&.exp_year,
       user_id: session.client_reference_id || nil
     )
   end
