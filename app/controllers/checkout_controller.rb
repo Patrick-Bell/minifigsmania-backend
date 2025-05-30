@@ -95,10 +95,8 @@ class CheckoutController < ApplicationController
       shipping_address_collection: {
         allowed_countries: ['GB']
       },
-      payment_intent_data: {
       metadata: {
       user_id: @current_user&.id
-        }
       },
       expand: ['line_items'],
       shipping_options: shipping_options,
@@ -194,6 +192,7 @@ class CheckoutController < ApplicationController
       card_last4: card_details.card&.last4,
       card_exp_month: card_details.card&.exp_month,
       card_exp_year: card_details.card&.exp_year
+      user_id: session.client_reference_id || nil
     )
   end
   
