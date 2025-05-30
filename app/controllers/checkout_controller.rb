@@ -1,7 +1,7 @@
 class CheckoutController < ApplicationController
   require 'stripe'
 
-  before_action :set_current_user
+  before_action :current_user
   before_action :set_stripe_key
 
   def create_checkout_session
