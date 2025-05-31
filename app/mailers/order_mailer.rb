@@ -38,7 +38,7 @@ end
       @user = User.find_by(id: @order.user_id)
       @discount = @order.discount || 0.0
 
-      mail(to: ENV['EMAIL'], subject: "MinifigsMania | New Order")
+      mail(to: ENV['MINIFIGSMANIA_EMAIL'], subject: "MinifigsMania | New Order")
     end
 
 
@@ -54,7 +54,7 @@ end
 
       @order = order
 
-      mail(to: ENV['EMAIL'], subject: 'MinifigsMania | Refund Request')
+      mail(to: ENV['MINIFIGSMANIA_EMAIL'], subject: 'MinifigsMania | Refund Request')
     end
 
   end

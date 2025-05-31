@@ -181,7 +181,7 @@ class CheckoutController < ApplicationController
       country: session.customer_details.address.country,
       payment_method: 'Stripe',
       delivery_date: 3.days.from_now,
-      paid: true,
+      paid: 'processing',
       shipping_fee: session.shipping_cost&.amount_total.to_f / 100,
       name: session.customer_details.name,
       email: session.customer_details.email,

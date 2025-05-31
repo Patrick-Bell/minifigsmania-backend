@@ -4,7 +4,7 @@ class MessageMailer < ApplicationMailer
 
         @message = message
 
-        mail(to: ENV['EMAIL'], subject: "MinifigsMania | New Message")
+        mail(to: ENV['MINIFIGSMANIA_EMAIL'], subject: "MinifigsMania | New Message")
 
     end
 end

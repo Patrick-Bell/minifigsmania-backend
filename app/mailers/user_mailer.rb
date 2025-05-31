@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
 
         @user = user
 
-        mail(to: ENV['EMAIL'], subject: 'MinifigsMania | New User')
+        mail(to: ENV['MINIFIGSMANIA_EMAIL'], subject: 'MinifigsMania | New User')
 
     end
 

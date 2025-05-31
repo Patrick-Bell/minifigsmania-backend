@@ -8,7 +8,7 @@ class ProductMailer < ApplicationMailer
 
   
       # Send the email
-      mail(to: ENV['EMAIL'], subject: "MinifigsMania | New Product Listed") do |format|
+      mail(to: ENV['MINIFIGSMANIA_EMAIL'], subject: "MinifigsMania | New Product Listed") do |format|
         format.html { render 'new_product_listed' } # Your HTML email template
         format.text { render plain: 'New product information' }
       end

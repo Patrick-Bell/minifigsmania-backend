@@ -7,7 +7,7 @@ class ReviewMailer < ApplicationMailer
         @first_image_url = @product.images.first['url'] # Assuming `images` is an array of hashes
         @user = User.find_by(id: @review.user_id)
 
-        mail(to: ENV['EMAIL'], subject: "MinifigsMania | New Review")
+        mail(to: ENV['MINIFIGSMANIA_EMAIL'], subject: "MinifigsMania | New Review")
 
     end
 end

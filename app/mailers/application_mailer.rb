@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV['EMAIL']
+  default from: ENV['MINIFIGSMANIA_EMAIL']
   layout "mailer"
 end
