@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
     end
 
     if user&.authenticate(params[:user][:password])
-      token = JWT.encode({ user_id: user.id, email: user.email, exp: 2.hours.from_now.to_i }, JWT_SECRET_KEY, 'HS256')
+      token = JWT.encode({ user_id: user.id, email: user.email, exp: 2.hours.from_now.to_i, role: user.role }, JWT_SECRET_KEY, 'HS256')
 
       Rails.logger.debug "Generated Token: #{token}"
 
@@ -23,13 +23,10 @@ class SessionsController < ApplicationController
       httponly: true,
       expires: 2.hours.from_now,
       same_site: Rails.env.production? ? :none : :lax,
-      secure: Rails.env.production?,
-      domain: 'minifigsmania-backend-fce4e488a52a.herokuapp.com', # ✅ exact match
+      secure: Rails.env.production? ? true : false,
       path: '/'
     }
     cookies[:token] = cookie_options
-
-
 
       render json: {
         message: 'Login successful',
@@ -43,14 +40,15 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    cookies.delete(:token,
-    domain: 'minifigsmania-backend-fce4e488a52a.herokuapp.com', # ✅ exact match
-    secure: Rails.env.production?,
-    same_site: Rails.env.production? ? :none : :lax,
-    httponly: true,
-    path: '/'
-)
-    render json: { message: 'Logout successful' }
+    cookies.delete(
+      :token,
+      signed: true,
+      httponly: true,
+      path: "/",
+      same_site: Rails.env.development? ? :lax : :none,
+      secure: Rails.env.production? ? true : false
+      )
+    render json: { message: 'Logged out successfully' }, status: :ok
   end
   
   

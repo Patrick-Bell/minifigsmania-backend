@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
     
     include ActionController::Cookies
+
     before_action :set_current_user
   
     def set_current_user
@@ -33,6 +34,7 @@ class ApplicationController < ActionController::API
         render json: { error: "Not authorized" }, status: :unauthorized
       end
     end
+
   
     private
   

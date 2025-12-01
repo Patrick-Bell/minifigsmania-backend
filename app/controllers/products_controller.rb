@@ -31,7 +31,7 @@ class ProductsController < ApplicationController
     # Track if the product's active status is changing from false to true
       if @product.active != product_params[:active] && product_params[:active] == true
         # Trigger the email to be sent when the product is activated
-        ProductMailer.new_product_listed(@product).deliver_later
+        #ProductMailer.new_product_listed(@product).deliver_later
     end
   
     # Attempt to update the product

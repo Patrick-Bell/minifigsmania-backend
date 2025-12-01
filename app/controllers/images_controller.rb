@@ -1,6 +1,6 @@
 class ImagesController < ApplicationController
     before_action :set_image, only: %i[ show update destroy ]
-    before_action :authorize_admin, only: [:create, :destroy, :update]
+   # before_action :authorize_admin, only: [:create, :destroy, :update]
 
   
     # GET /events

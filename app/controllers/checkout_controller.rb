@@ -172,7 +172,7 @@ class CheckoutController < ApplicationController
     
     Order.new(
       total_price: session.amount_total.to_f / 100,
-      status: 'paid',
+      status: 'processing',
       date: Time.at(session.created).to_datetime,
       address: session.customer_details.address.line1,
       address_2: session.customer_details.address.line2,
@@ -181,7 +181,7 @@ class CheckoutController < ApplicationController
       country: session.customer_details.address.country,
       payment_method: 'Stripe',
       delivery_date: 3.days.from_now,
-      paid: 'processing',
+      paid: 'paid',
       shipping_fee: session.shipping_cost&.amount_total.to_f / 100,
       name: session.customer_details.name,
       email: session.customer_details.email,
