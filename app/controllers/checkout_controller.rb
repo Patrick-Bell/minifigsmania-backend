@@ -24,7 +24,7 @@ class CheckoutController < ApplicationController
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: { amount: 155, currency: "gbp" },
+            fixed_amount: { amount: 0, currency: "gbp" },
             display_name: "Royal Mail 2nd Class",
             delivery_estimate: {
               minimum: { unit: "business_day", value: 2 },
