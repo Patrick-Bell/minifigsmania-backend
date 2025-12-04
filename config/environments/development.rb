@@ -80,8 +80,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            ENV['EMAIL'], # Your Gmail address (e.g., youremail@gmail.com)
-    password:             ENV['PASS'], # The app-specific password
+    user_name:            ENV['MINIFIGSMANIA_EMAIL'], # Your Gmail address (e.g., youremail@gmail.com)
+    password:             ENV['MINIFIGSMANIA_PASS'], # The app-specific password
     authentication:       'plain',
     enable_starttls_auto: true,
     open_timeout: 30,  # Increase timeout

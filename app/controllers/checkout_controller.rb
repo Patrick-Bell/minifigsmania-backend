@@ -121,7 +121,7 @@ class CheckoutController < ApplicationController
   def stripe_webhook
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    signing_secret = ENV['STRIPE_WEBHOOK_SECRET']
+    signing_secret = Rails.env.production? ? ENV['STRIPE_LIVE_WEBHOOK_SECRET'] : ENV['STRIPE_WEBHOOK_SECRET']
   
     event = verify_stripe_event(payload, sig_header, signing_secret)
     return head :bad_request unless event
@@ -274,6 +274,7 @@ class CheckoutController < ApplicationController
   private
 
   def set_stripe_key
-    Stripe.api_key = ENV['STRIPE_API_KEY']
+    stripe_key = Rails.env.production? ? ENV['STRIPE_SECRET_KEY'] : ENV['STRIPE_API_KEY']
+    Stripe.api_key = stripe_key
   end
 end
